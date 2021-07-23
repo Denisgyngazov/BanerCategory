@@ -55,10 +55,10 @@ class BanerCategoryApplicationTests {
 		request.setIp_address("192.168");
 		request.setUser_agent("admin");
 
-		categoryRepository.save(category);
+		//categoryRepository.save(category);
 
 
-		bannerController.create(banner);
+		//bannerController.create(banner);
 
 		//categoryRepository.save(category);
 //		bannerRepository.save(banner);
