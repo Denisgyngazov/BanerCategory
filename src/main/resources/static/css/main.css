@@ -1,0 +1,69 @@
+.container {
+  height:100%;
+  width:100%;
+  position:fixed;
+}
+
+.top-element {
+  height:2em;
+  width:66%;
+  position:absolute;
+  border:2px solid grey;
+}
+
+.left-element {
+  height:50em;
+  width:15%;
+  border:2px solid grey;
+  position:absolute;
+  margin-top:3em;
+}
+.right-element {
+  height:50em;
+  width:50%;
+  margin-top:3em;
+  position:absolute;
+  left:16%;
+  top:0;
+  border:2px solid grey;
+}
+
+.banners {
+  margin-top:0.5em;
+  margin-left:1em;
+}
+
+.categories {
+  margin-top:-2.1em;
+  margin-left:5em;
+}
+
+.labelCategories {
+  text-align:center;
+}
+
+.searchCategories {
+  text-align:center;
+}
+.createCategories {
+  position:absolute;
+  margin-left:4em;
+  bottom:0;
+}
+
+.horizontalLine {
+  border:1px solid grey;
+  margin-top:4em;
+
+}
+
+.textFieldName {
+margin-left:2.6em;
+}
+
+.deleteCategories {
+  position:absolute;
+  bottom:0;
+  left:52em;
+}
+

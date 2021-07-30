@@ -8,9 +8,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Request")
 public class Request extends BaseModelEntity {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "banner_id")
-    private Banner banner;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "banner_id")
+//    private Banner banner;
 
     @Getter
     @Setter
@@ -24,7 +24,7 @@ public class Request extends BaseModelEntity {
     @Setter
     private String date;
 
-    public Request(Banner banner) {
-        this.banner = banner;
+    public Request() {
+
     }
 }
