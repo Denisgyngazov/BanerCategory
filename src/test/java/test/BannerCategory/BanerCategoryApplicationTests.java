@@ -1,6 +1,5 @@
 package test.BannerCategory;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -9,23 +8,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.com.google.common.collect.Sets;
-import test.BannerCategory.controller.BannerController;
-import test.BannerCategory.controller.CategoryController;
 import test.BannerCategory.model.Banner;
 import test.BannerCategory.model.Category;
-import test.BannerCategory.repository.BannerRepository;
-import test.BannerCategory.repository.CategoryRepository;
-import test.BannerCategory.repository.RequestRepository;
+import test.BannerCategory.service.BannerService;
+import test.BannerCategory.service.CategoryService;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @SpringBootTest
 @Testcontainers
+@Validated
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BanerCategoryApplicationTests {
 
@@ -44,86 +42,83 @@ class BanerCategoryApplicationTests {
     }
 
     @Autowired
-    private RequestRepository requestRepository;
+    private BannerService bannerService;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService categoryService;
 
-    @Autowired
-    private BannerRepository bannerRepository;
+    @BeforeAll
+    @Rollback()
+    void contextLoads() {
+        Category category = new Category();
+        category.setName("First category");
+        category.setReq_name("First");
 
-    @Autowired
-    private BannerController bannerController;
-
-    @Autowired
-    private CategoryController categoryController;
-
-//    @BeforeAll
-//    @Rollback
-//    void contextLoads() {
-//        Category category = new Category();
-//        category.setName("test1");
-//        category.setReq_name("test2");
-//
-//        Category category1 = new Category();
-//        category1.setName("test2");
-//        category1.setReq_name("test2");
-//
-//
-//        Banner banner = new Banner(category);
-//        banner.setName("first");
-//        banner.setPrice(8.2);
-//        banner.setText("");
-//
-//
-//        Banner banner1 = new Banner(category);
-//        banner1.setName("second");
-//        banner1.setPrice(8.2);
-//        banner1.setText("");
-//
-//        category.setBanners(Sets.newHashSet(banner,banner1));
-//
-//        categoryRepository.save(category);
-//
-//    }
-
-//    @Test
-//    public void createEntity() {
-//        Iterable<Category> allCategory = categoryRepository.findAll();
-//        allCategory.forEach(p -> System.out.println(p.getName() + " " + p.getId()));
-//        System.out.println("-------------------------");
-//        Iterable<Category> filterCategory = categoryRepository.findByNameLikeIgnoreCase("%da%");
-//        filterCategory.forEach(p -> System.out.println(p.getName()));
-//
-//        Iterable<Banner> banerrepos = bannerRepository.findAll();
-//        banerrepos.forEach(p -> System.out.println(p.getName() + " " + p.getCategory().getName() + " " + p.isDeleted()));
-//
-//    }
-
-	@Test
-	public void deleteCategory() {
-		Category category = new Category();
-		category.setName("test1");
-		category.setReq_name("test2");
-
-		Banner banner = new Banner(category);
-		banner.setName("first");
-		banner.setPrice(8.2);
-		banner.setText("");
+        Banner banner = new Banner(category);
+        banner.setName("First banner");
+        banner.setPrice(8.2);
+        banner.setText("FirstFirstFirstFirstFirstFirstFirstFirstFirstFirstFirstFirstFirstFirstFirstFirstFirstFirstFirst");
 
 
-		Banner banner1 = new Banner(category);
-		banner1.setName("second");
-		banner1.setPrice(8.2);
-		banner1.setText("");
+        Banner banner1 = new Banner(category);
+        banner1.setName("Second banner");
+        banner1.setPrice(9.2);
+        banner1.setText("SecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecondSecond");
 
-		category.setBanners(Sets.newHashSet(banner,banner1));
+        category.setBanners(Sets.newHashSet(banner, banner1));
 
-        category = categoryRepository.save(category);
+        categoryService.save(category);
 
-		Assertions.assertFalse(category.getBanners().isEmpty());
-//        bannerController.delete(2);
-//        bannerController.delete(3);
-//        categoryController.delete(1,category);
-	}
+    }
+
+    @Test
+    @Transactional
+    public void createEntity() {
+        System.out.println("Category:");
+        System.out.println("-------------------------");
+        Iterable<Category> allCategory = categoryService.findAll();
+        allCategory.forEach(c -> System.out.println(c.getId() + " | "
+                + c.getName() + " | "
+                + c.getReq_name() + " | "
+                + c.getBanners()));
+        System.out.println("-------------------------");
+
+        System.out.println("Banners:");
+        System.out.println("-------------------------");
+        Iterable<Banner> allBanners = bannerService.findAll();
+        allBanners.forEach(b -> System.out.println(b.getId() + " | "
+                + b.getName() + " | "
+                + b.getPrice() + "| "
+                + b.getText() + " | "
+                + b.getCategory().getName()));
+        System.out.println("-------------------------");
+
+    }
+
+    @Test
+    public void filterBanners() {
+        System.out.println("Filter banners:");
+        System.out.println("-------------------------");
+        List<Banner> filterBanners = bannerService.filter("%fir%");
+        filterBanners.forEach(b -> System.out.println(b.getId() + " | "
+                + b.getName()));
+        System.out.println("-------------------------");
+    }
+
+    @Test
+    public void filterCategory() {
+        System.out.println("Filter category:");
+        System.out.println("-------------------------");
+        List<Category> filterCategory = categoryService.filter("%fi%");
+        filterCategory.forEach(c -> System.out.println(c.getId() + " | "
+                + c.getName()));
+        System.out.println("-------------------------");
+    }
+
+    @Test
+    @Transactional
+    public void deleteCategory() {
+        System.out.println("Delete category:");
+        categoryService.delete(1);
+    }
 }

@@ -1,47 +1,48 @@
 package test.BannerCategory.controller;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import test.BannerCategory.model.Banner;
-import test.BannerCategory.repository.BannerRepository;
+import test.BannerCategory.service.BannerService;
+
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @RestController
-@RequestMapping("/banner")
+@RequestMapping("banner")
 public class BannerController {
 
-    private BannerRepository bannerRepository;
+    private final BannerService bannerService;
 
-    public BannerController(BannerRepository bannerRepository) {
-        this.bannerRepository = bannerRepository;
+    public BannerController(BannerService bannerService) {
+        this.bannerService = bannerService;
     }
 
     @GetMapping()
-    public Iterable findAll() {
-        return bannerRepository.findAll();
+    @SuppressWarnings("rawtypes")
+    public ResponseEntity<Iterable> findAll() {
+        return ResponseEntity.ok(bannerService.findAll());
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Banner create(@RequestBody Banner banner) {
-        return bannerRepository.save(banner);
+    public ResponseEntity<Banner> create(@RequestBody @Valid Banner banner) {
+        return ResponseEntity.ok(bannerService.save(banner));
     }
 
     @DeleteMapping("/{delete}")
-    public void delete(@PathVariable int id) {
-        bannerRepository.findById(id);
-        bannerRepository.deleteById(id);
+    public void delete(@PathVariable @Min(1) int id) {
+        bannerService.delete(id);
     }
 
     @PutMapping("/{update}")
-    public Banner updateBanner(@RequestBody Banner banner, @PathVariable int id) {
-        if(banner.getId() != id) {
-            System.out.println("Несоответсвие id");
-        }
-        bannerRepository.findById(id);
-        return bannerRepository.save(banner);
+    public ResponseEntity<Banner> update(@RequestBody @Valid Banner banner) {
+        return ResponseEntity.ok(bannerService.update(banner));
     }
 
-
-
-
+    @PostMapping("filter")
+    public ResponseEntity<List<Banner>> filter(@RequestParam @NotBlank String filter) {
+        return ResponseEntity.ok(bannerService.filter(filter));
+    }
 }
