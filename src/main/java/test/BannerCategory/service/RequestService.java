@@ -1,9 +1,7 @@
 package test.BannerCategory.service;
 
 import org.springframework.stereotype.Service;
-import test.BannerCategory.model.Banner;
 import test.BannerCategory.model.Request;
-import test.BannerCategory.repository.BannerRepository;
 import test.BannerCategory.repository.RequestRepository;
 
 @Service

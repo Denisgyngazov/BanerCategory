@@ -1,8 +1,6 @@
 package test.BannerCategory.repository;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import test.BannerCategory.model.Banner;
 
 import java.util.List;

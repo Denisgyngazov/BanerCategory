@@ -119,7 +119,7 @@ class BanerCategoryApplicationTests {
         System.out.println("Banner text:");
         System.out.println("-------------------------");
         Iterable<Banner> findBannerInCategoryReqName = bannerService.findFirstByCategoryReqNameOrderByPriceDesc("First");
-        findBannerInCategoryReqName.forEach(f-> System.out.println(f.getText()));
+        findBannerInCategoryReqName.forEach(f -> System.out.println(f.getText()));
     }
 
     @Test
