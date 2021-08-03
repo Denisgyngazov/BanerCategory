@@ -12,5 +12,4 @@ public class BaseModelEntity {
     @Getter
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
 }

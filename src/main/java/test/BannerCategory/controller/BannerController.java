@@ -20,7 +20,7 @@ public class BannerController {
         this.bannerService = bannerService;
     }
 
-    @GetMapping()
+    @GetMapping
     @SuppressWarnings("rawtypes")
     public ResponseEntity<Iterable> findAll() {
         return ResponseEntity.ok(bannerService.findAll());
@@ -31,18 +31,23 @@ public class BannerController {
         return ResponseEntity.ok(bannerService.save(banner));
     }
 
-    @DeleteMapping("/{delete}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable @Min(1) int id) {
         bannerService.delete(id);
     }
 
-    @PutMapping("/{update}")
+    @PutMapping("/update/{category}")
     public ResponseEntity<Banner> update(@RequestBody @Valid Banner banner) {
         return ResponseEntity.ok(bannerService.update(banner));
     }
 
-    @PostMapping("filter")
-    public ResponseEntity<List<Banner>> filter(@RequestParam @NotBlank String filter) {
+    @PostMapping("/filter/{filter}")
+    public ResponseEntity<List<Banner>> filter(@RequestParam("filter") @NotBlank String filter) {
         return ResponseEntity.ok(bannerService.filter(filter));
+    }
+
+    @GetMapping("/bid")
+    public ResponseEntity<List<Banner>> findByTextBanner(@RequestParam("category") String reqName) {
+        return ResponseEntity.ok(bannerService.findByCategoryReqName(reqName));
     }
 }

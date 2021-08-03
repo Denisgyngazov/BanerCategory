@@ -35,4 +35,8 @@ public class BannerService {
     public List<Banner> filter(String filter) {
         return bannerRepository.findByNameLikeIgnoreCase(filter);
     }
+
+    public List<Banner> findByCategoryReqName(String reqName) {
+        return bannerRepository.findByCategoryReqNameIgnoreCase(reqName);
+    }
 }

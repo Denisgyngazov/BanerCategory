@@ -11,6 +11,7 @@ import javax.validation.constraints.*;
 @Entity
 @SQLDelete(sql = "UPDATE Banner SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
+@Table(name = "Banner")
 public class Banner extends BaseModelEntity {
 
     @Getter

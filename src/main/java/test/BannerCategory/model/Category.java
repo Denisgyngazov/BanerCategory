@@ -15,6 +15,7 @@ import java.util.Set;
 @Entity
 @SQLDelete(sql = "UPDATE Category SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
+@Table(name = "Category")
 public class Category extends BaseModelEntity {
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -34,11 +35,10 @@ public class Category extends BaseModelEntity {
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Req_name should not be empty")
     @Size(min = 2, max = 30, message = "Req_name should be between 2 and 30 characters")
-    private String req_name;
+    private String reqName;
 
     @Getter
     @Setter
     @AssertFalse(message = "Deleted should be false")
     private boolean deleted = Boolean.FALSE;
-
 }

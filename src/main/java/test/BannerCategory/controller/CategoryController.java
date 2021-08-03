@@ -30,17 +30,17 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.save(category));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable @Min(1) int id) {
         categoryService.delete(id);
     }
 
-    @PutMapping("{update}")
+    @PutMapping("/update/{category}")
     public ResponseEntity<Category> update(@RequestBody @Valid Category category) {
         return ResponseEntity.ok(categoryService.update(category));
     }
 
-    @PostMapping("filter")
+    @PostMapping("/filter/{filter}")
     public ResponseEntity<List<Category>> filter(@RequestParam @NotBlank String filter) {
         return ResponseEntity.ok(categoryService.filter(filter));
     }

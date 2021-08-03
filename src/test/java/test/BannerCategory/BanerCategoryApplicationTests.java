@@ -9,7 +9,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -23,11 +22,11 @@ import java.util.List;
 
 @SpringBootTest
 @Testcontainers
-@Validated
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BanerCategoryApplicationTests {
 
     @Container
+    @SuppressWarnings("rawtypes")
     public static MySQLContainer mySQLContainer = new MySQLContainer("mysql:latest")
             .withDatabaseName("banercategory")
             .withUsername("root")
@@ -52,7 +51,7 @@ class BanerCategoryApplicationTests {
     void contextLoads() {
         Category category = new Category();
         category.setName("First category");
-        category.setReq_name("First");
+        category.setReqName("First");
 
         Banner banner = new Banner(category);
         banner.setName("First banner");
@@ -73,13 +72,14 @@ class BanerCategoryApplicationTests {
 
     @Test
     @Transactional
+    @SuppressWarnings("unchecked")
     public void createEntity() {
         System.out.println("Category:");
         System.out.println("-------------------------");
         Iterable<Category> allCategory = categoryService.findAll();
         allCategory.forEach(c -> System.out.println(c.getId() + " | "
                 + c.getName() + " | "
-                + c.getReq_name() + " | "
+                + c.getReqName() + " | "
                 + c.getBanners()));
         System.out.println("-------------------------");
 
@@ -92,7 +92,6 @@ class BanerCategoryApplicationTests {
                 + b.getText() + " | "
                 + b.getCategory().getName()));
         System.out.println("-------------------------");
-
     }
 
     @Test
@@ -113,6 +112,14 @@ class BanerCategoryApplicationTests {
         filterCategory.forEach(c -> System.out.println(c.getId() + " | "
                 + c.getName()));
         System.out.println("-------------------------");
+    }
+
+    @Test
+    public void findBannerInCategoryReqName() {
+        System.out.println("Banner text:");
+        System.out.println("-------------------------");
+        Iterable<Banner> findBannerInCategoryReqName = bannerService.findByCategoryReqName("First");
+        findBannerInCategoryReqName.forEach(f-> System.out.println(f.getText()));
     }
 
     @Test
