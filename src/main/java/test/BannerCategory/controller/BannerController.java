@@ -48,6 +48,6 @@ public class BannerController {
 
     @GetMapping("/bid")
     public ResponseEntity<List<Banner>> findByTextBanner(@RequestParam("category") String reqName) {
-        return ResponseEntity.ok(bannerService.findByCategoryReqName(reqName));
+        return ResponseEntity.ok(bannerService.findFirstByCategoryReqNameOrderByPriceDesc(reqName));
     }
 }

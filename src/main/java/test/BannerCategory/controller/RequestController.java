@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
 
 
 @RestController
-@RequestMapping("banner")
+@RequestMapping("request")
 public class RequestController {
     private final RequestService requestService;
 

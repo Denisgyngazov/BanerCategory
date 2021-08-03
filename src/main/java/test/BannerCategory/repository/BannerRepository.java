@@ -11,8 +11,6 @@ public interface BannerRepository extends CrudRepository<Banner, Integer> {
 
     List<Banner> findByNameLikeIgnoreCase(String name);
 
-    @Query("select b from Banner b where b.category.reqName = :reqName and b.price >= all " +
-            "(select ban.price from Banner ban where ban.category.reqName = :reqName) ")
-    List<Banner> findByCategoryReqNameIgnoreCase(@Param("reqName") String reqName);
+    List<Banner> findFirstByCategoryReqNameOrderByPriceDesc(String reqName);
 
 }

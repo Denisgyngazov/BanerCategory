@@ -36,7 +36,7 @@ public class BannerService {
         return bannerRepository.findByNameLikeIgnoreCase(filter);
     }
 
-    public List<Banner> findByCategoryReqName(String reqName) {
-        return bannerRepository.findByCategoryReqNameIgnoreCase(reqName);
+    public List<Banner> findFirstByCategoryReqNameOrderByPriceDesc(String reqName) {
+        return bannerRepository.findFirstByCategoryReqNameOrderByPriceDesc(reqName);
     }
 }

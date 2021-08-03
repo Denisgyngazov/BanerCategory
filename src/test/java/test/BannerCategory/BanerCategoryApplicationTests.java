@@ -118,7 +118,7 @@ class BanerCategoryApplicationTests {
     public void findBannerInCategoryReqName() {
         System.out.println("Banner text:");
         System.out.println("-------------------------");
-        Iterable<Banner> findBannerInCategoryReqName = bannerService.findByCategoryReqName("First");
+        Iterable<Banner> findBannerInCategoryReqName = bannerService.findFirstByCategoryReqNameOrderByPriceDesc("First");
         findBannerInCategoryReqName.forEach(f-> System.out.println(f.getText()));
     }
 
